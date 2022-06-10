@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.stg.entity.College;
 import com.stg.entity.University;
 import com.stg.exception.CustomExcepHandler;
+import com.stg.repository.CollegeRepository;
 import com.stg.repository.UniversityRepository;
 import com.stg.serviceinterfaces.UniversityService;
 
@@ -17,6 +18,8 @@ public class UniversityServiceImpl implements UniversityService {
 
 	@Autowired
 	private UniversityRepository universityRepository;
+	@Autowired
+	private CollegeRepository collegeRepository;
 
 	/*---------------------------------------CREATE---------------------------------------------------- */
 
@@ -25,6 +28,18 @@ public class UniversityServiceImpl implements UniversityService {
 
 		if (universityRepository.findByUniversityCode(university.getUniversityCode()) == null) {
 			return universityRepository.save(university);
+		} else {
+			throw new CustomExcepHandler("University with this code already exists");
+		}
+	}
+	
+	@Override
+	public University addCollegeToUniversity(String universityCode, String collegeCode) throws CustomExcepHandler {
+		if (universityRepository.findByUniversityCode(universityCode) == null) {
+			University tempUni = universityRepository.findByUniversityCode(universityCode);
+			College tempCollege = collegeRepository.findByCollegeCode(collegeCode);
+			tempUni.getColleges().add(tempCollege);
+			return tempUni;
 		} else {
 			throw new CustomExcepHandler("University with this code already exists");
 		}
@@ -115,6 +130,8 @@ public class UniversityServiceImpl implements UniversityService {
 		}
 
 	}
+
+	
 
 	/*---------------------------------------END---------------------------------------------------- */
 

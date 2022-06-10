@@ -119,6 +119,10 @@ public class College {
 		this.streamsInCollege = streamsInCollege;
 	}
 	
+	public String getUniversityCode() {
+		return university.getUniversityCode();
+	}
+	
 	
 
 }

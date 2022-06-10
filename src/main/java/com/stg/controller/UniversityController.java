@@ -35,7 +35,11 @@ public class UniversityController {
 	public University createUniversity(@RequestBody University university) {
 		return universityService.createUniversity(university);
 	}
-
+	
+	@PostMapping(value = "addcollege")
+	public University addCollegeToUniversity(@RequestParam String universityCode,@RequestParam String collegeCode) {
+		return universityService.addCollegeToUniversity(universityCode, collegeCode);
+	}
 	/*---------------------------------------READ---------------------------------------------------- */
 
 	@GetMapping(value = "getbycode")

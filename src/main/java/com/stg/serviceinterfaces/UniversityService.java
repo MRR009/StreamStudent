@@ -10,6 +10,8 @@ public interface UniversityService {
 	
 	public abstract University createUniversity(University university)throws CustomExcepHandler;
 	
+	public abstract University addCollegeToUniversity(String universityCode, String collegeCode)throws CustomExcepHandler;
+	
 	public abstract University readUniversityByCode(String code) throws CustomExcepHandler;
 	
 	public abstract List<University> getAllUniversities()throws CustomExcepHandler;

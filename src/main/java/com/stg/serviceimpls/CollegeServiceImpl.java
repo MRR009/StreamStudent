@@ -83,6 +83,7 @@ public class CollegeServiceImpl implements CollegeService {
 	public College readCollegeByCode(String code) throws CustomExcepHandler {
 		College tempCollege = collegeRepository.findByCollegeCode(code);
 		if (tempCollege != null) {
+			System.out.println(tempCollege.getUniversity().getUniversityCode());
 			return collegeRepository.findByCollegeCode(code);
 		} else {
 			throw new CustomExcepHandler("No college Found with the given Code");
