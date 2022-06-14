@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -33,10 +34,20 @@ public class College {
 	private String collegeName;
 
 	@Column(length = 7)
-	private String collegeType;
+	private collType collegeType;
+	
+	public enum collType {
+		PRIVATE, GOVERNMENT
+	}
 
 	@Column(length = 35)
 	private String collegeLocation;
+
+	@Column
+	private String collegeLogo;
+
+	@Column
+	private String collegeImage;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "uni_code", referencedColumnName = "universityId", nullable = false)
@@ -47,20 +58,28 @@ public class College {
 	@JoinTable(name = "collegestreamjunc", joinColumns = @JoinColumn(name = "collegeId"), inverseJoinColumns = @JoinColumn(name = "streamId"))
 	private Set<Stream> streamsInCollege = new HashSet<Stream>();
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "collegeIdFk", referencedColumnName = "addressId")
+	private Address address;
+
 	public College() {
 		super();
 	}
 
-	public College(int collegeId, String collegeCode, String collegeName, String collegeType, String collegeLocation,
-			University university, Set<Stream> streamsInCollege) {
+	public College(int collegeId, String collegeCode, String collegeName, collType collegeType, String collegeLocation,
+			String collegeLogo, String collegeImage, University university, Set<Stream> streamsInCollege,
+			Address address) {
 		super();
 		this.collegeId = collegeId;
 		this.collegeCode = collegeCode;
 		this.collegeName = collegeName;
 		this.collegeType = collegeType;
 		this.collegeLocation = collegeLocation;
+		this.collegeLogo = collegeLogo;
+		this.collegeImage = collegeImage;
 		this.university = university;
 		this.streamsInCollege = streamsInCollege;
+		this.address = address;
 	}
 
 	public int getCollegeId() {
@@ -87,11 +106,11 @@ public class College {
 		this.collegeName = collegeName;
 	}
 
-	public String getCollegeType() {
+	public collType getCollegeType() {
 		return collegeType;
 	}
 
-	public void setCollegeType(String collegeType) {
+	public void setCollegeType(collType collegeType) {
 		this.collegeType = collegeType;
 	}
 
@@ -103,12 +122,36 @@ public class College {
 		this.collegeLocation = collegeLocation;
 	}
 
+	public String getCollegeLogo() {
+		return collegeLogo;
+	}
+
+	public void setCollegeLogo(String collegeLogo) {
+		this.collegeLogo = collegeLogo;
+	}
+
+	public String getCollegeImage() {
+		return collegeImage;
+	}
+
+	public void setCollegeImage(String collegeImage) {
+		this.collegeImage = collegeImage;
+	}
+
 	public University getUniversity() {
 		return university;
 	}
 
 	public void setUniversity(University university) {
 		this.university = university;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public Set<Stream> getStreamsInCollege() {
@@ -118,11 +161,9 @@ public class College {
 	public void setStreamsInCollege(Set<Stream> streamsInCollege) {
 		this.streamsInCollege = streamsInCollege;
 	}
-	
+
 	public String getUniversityCode() {
 		return university.getUniversityCode();
 	}
-	
-	
 
 }

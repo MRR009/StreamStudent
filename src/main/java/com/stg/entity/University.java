@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -38,12 +40,16 @@ public class University {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "university")
 	private List<College> colleges;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "universityIdFk", referencedColumnName = "addressId")
+	private Address address;
+
 	public University() {
 		super();
 	}
 
 	public University(int universityId, String universityCode, String universityName, String universityLocation,
-			String specialization, List<College> colleges) {
+			String specialization, List<College> colleges, Address address) {
 		super();
 		this.universityId = universityId;
 		this.universityCode = universityCode;
@@ -51,6 +57,7 @@ public class University {
 		this.universityLocation = universityLocation;
 		this.specialization = specialization;
 		this.colleges = colleges;
+		this.address = address;
 	}
 
 	public int getUniversityId() {
@@ -100,7 +107,13 @@ public class University {
 	public void setColleges(List<College> colleges) {
 		this.colleges = colleges;
 	}
-	
-	
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 }
