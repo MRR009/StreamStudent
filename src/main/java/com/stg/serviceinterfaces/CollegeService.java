@@ -22,4 +22,6 @@ public interface CollegeService {
 	public abstract String deleteCollegeByCode(String clgCode) throws CustomExcepHandler;
 	
 	public abstract College addCertainStream(String streamCode, String CollegeCode)throws CustomExcepHandler;
+	
+	public abstract College addCertainCourse(String courseCode, String CollegeCode)throws CustomExcepHandler;
 }

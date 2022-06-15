@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -27,21 +28,24 @@ public class College {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int collegeId;
 
-	@Column(length = 6)
+	@Column(length = 6, unique = true, columnDefinition = "varchar(6) default 'XX'")
 	private String collegeCode;
 
 	@Column(length = 60)
 	private String collegeName;
 
-	@Column(length = 7)
+	@Column
 	private collType collegeType;
-	
+
+	@Column(length = 4)
+	private int establishedIn;
+
 	public enum collType {
 		PRIVATE, GOVERNMENT
 	}
 
-	@Column(length = 35)
-	private String collegeLocation;
+	@Column
+	private String collegeDescription;
 
 	@Column
 	private String collegeLogo;
@@ -50,35 +54,41 @@ public class College {
 	private String collegeImage;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-	@JoinColumn(name = "uni_code", referencedColumnName = "universityId", nullable = false)
-	@JsonBackReference
+	@JoinColumn(name = "universityFk", referencedColumnName = "universityId", nullable = false)
+	@JsonBackReference(value = "unicol")
 	private University university;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinTable(name = "collegestreamjunc", joinColumns = @JoinColumn(name = "collegeId"), inverseJoinColumns = @JoinColumn(name = "streamId"))
 	private Set<Stream> streamsInCollege = new HashSet<Stream>();
 
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+	@JoinTable(name = "collegecoursejunc", joinColumns = @JoinColumn(name = "collegeId"), inverseJoinColumns = @JoinColumn(name = "courseId"))
+	private Set<Course> coursesInCollege = new HashSet<Course>();
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "collegeIdFk", referencedColumnName = "addressId")
+	@JoinColumn(name = "collegeFk", referencedColumnName = "addressId")
 	private Address address;
 
 	public College() {
 		super();
 	}
 
-	public College(int collegeId, String collegeCode, String collegeName, collType collegeType, String collegeLocation,
-			String collegeLogo, String collegeImage, University university, Set<Stream> streamsInCollege,
-			Address address) {
+	public College(int collegeId, String collegeCode, String collegeName, collType collegeType, int establishedIn,
+			String collegeDescription, String collegeLogo, String collegeImage, University university,
+			Set<Stream> streamsInCollege, Set<Course> coursesInCollege, Address address) {
 		super();
 		this.collegeId = collegeId;
 		this.collegeCode = collegeCode;
 		this.collegeName = collegeName;
 		this.collegeType = collegeType;
-		this.collegeLocation = collegeLocation;
+		this.establishedIn = establishedIn;
+		this.collegeDescription = collegeDescription;
 		this.collegeLogo = collegeLogo;
 		this.collegeImage = collegeImage;
 		this.university = university;
 		this.streamsInCollege = streamsInCollege;
+		this.coursesInCollege = coursesInCollege;
 		this.address = address;
 	}
 
@@ -114,12 +124,12 @@ public class College {
 		this.collegeType = collegeType;
 	}
 
-	public String getCollegeLocation() {
-		return collegeLocation;
+	public String getCollegeDescription() {
+		return collegeDescription;
 	}
 
-	public void setCollegeLocation(String collegeLocation) {
-		this.collegeLocation = collegeLocation;
+	public void setCollegeDescription(String collegeDescription) {
+		this.collegeDescription = collegeDescription;
 	}
 
 	public String getCollegeLogo() {
@@ -138,6 +148,15 @@ public class College {
 		this.collegeImage = collegeImage;
 	}
 
+	public int getEstablishedIn() {
+		return establishedIn;
+	}
+
+	public void setEstablishedIn(int establishedIn) {
+		this.establishedIn = establishedIn;
+	}
+
+	@JsonBackReference(value = "unicol")
 	public University getUniversity() {
 		return university;
 	}
@@ -146,20 +165,28 @@ public class College {
 		this.university = university;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 	public Set<Stream> getStreamsInCollege() {
 		return streamsInCollege;
 	}
 
 	public void setStreamsInCollege(Set<Stream> streamsInCollege) {
 		this.streamsInCollege = streamsInCollege;
+	}
+
+	public Set<Course> getCoursesInCollege() {
+		return coursesInCollege;
+	}
+
+	public void setCoursesInCollege(Set<Course> coursesInCollege) {
+		this.coursesInCollege = coursesInCollege;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public String getUniversityCode() {

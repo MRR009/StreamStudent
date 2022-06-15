@@ -92,18 +92,6 @@ public class UniversityServiceImpl implements UniversityService {
 
 	}
 
-	@Override
-	public University updateUniversityLocation(String uniCode, String location) throws CustomExcepHandler {
-
-		University university = universityRepository.findByUniversityCode(uniCode);
-		if (university != null) {
-			university.setUniversityLocation(location);
-			return universityRepository.save(university);
-		} else {
-			throw new CustomExcepHandler("No University Exists to Update. Give valid values.");
-		}
-
-	}
 
 	/*---------------------------------------DELETE---------------------------------------------------- */
 

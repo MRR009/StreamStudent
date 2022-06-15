@@ -58,8 +58,13 @@ public class CollegeController {
 	}
 	
 	@PutMapping(value = "updatestreamincollege")
-	public College updateStreamInCOllege(@RequestParam String streamCode,@RequestParam String collegeCode) {
+	public College updateStreamInCollege(@RequestParam String streamCode,@RequestParam String collegeCode) {
 		return collegeService.addCertainStream(streamCode, collegeCode);
+	}
+	
+	@PutMapping(value = "updatecourseincollege")
+	public College updateCourseInCollege(@RequestParam String courseCode,@RequestParam String collegeCode) {
+		return collegeService.addCertainCourse(courseCode, collegeCode);
 	}
 
 	/*---------------------------------------DELETE---------------------------------------------------- */

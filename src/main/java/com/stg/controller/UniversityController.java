@@ -64,10 +64,6 @@ public class UniversityController {
 		return universityService.updateUniversity(university);
 	}
 
-	@PutMapping(value = "updatebycode")
-	public University updateUniversityByCode(@RequestParam String uniCode, @RequestParam String location) {
-		return universityService.updateUniversityLocation(uniCode, location);
-	}
 
 	/*---------------------------------------DELETE---------------------------------------------------- */
 

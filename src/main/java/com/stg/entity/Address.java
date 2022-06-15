@@ -1,11 +1,13 @@
 package com.stg.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+@Entity
 public class Address {
 
 	@Id
@@ -22,7 +24,7 @@ public class Address {
 	private int pincode;
 
 	@Column
-	private String district;
+	private String city;
 
 	@Column
 	private String state;
@@ -37,14 +39,14 @@ public class Address {
 		super();
 	}
 
-	public Address(int addressId, String addressLane1, String addressLane2, int pincode, String district, String state,
+	public Address(int addressId, String addressLane1, String addressLane2, int pincode, String city, String state,
 			College college, University university) {
 		super();
 		this.addressId = addressId;
 		this.addressLane1 = addressLane1;
 		this.addressLane2 = addressLane2;
 		this.pincode = pincode;
-		this.district = district;
+		this.city = city;
 		this.state = state;
 		this.college = college;
 		this.university = university;
@@ -82,12 +84,12 @@ public class Address {
 		this.pincode = pincode;
 	}
 
-	public String getDistrict() {
-		return district;
+	public String getCity() {
+		return city;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getState() {

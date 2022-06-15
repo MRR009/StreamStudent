@@ -1,5 +1,6 @@
 package com.stg.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,32 +27,34 @@ public class Stream {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int streamId;
-
-	@Column(length = 10)
+	
+	@Column(length = 6, unique = true, columnDefinition = "varchar(6) default 'XX'")
 	private String streamCode;
 
 	@Column(length = 30)
 	private String streamName;
 
-	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "stream")
-	private List<Student> students;
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "streamsInUniversity")
+	private Set<University> universitiesWithStream = new HashSet<University>();
 
-	@JsonBackReference
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "streamsInCollege")
 	private Set<College> collegesWithStream = new HashSet<College>();
+	
+	@JsonManagedReference(value = "strmcrs")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "stream")
+	private List<Course> coursesInStream ;
 
 	public Stream() {
 		super();
 	}
 
-	public Stream(int streamId, String streamCode, String streamName, List<Student> students,
+	public Stream(int streamId, String streamCode, String streamName, Set<University> universitiesWithStream,
 			Set<College> collegesWithStream) {
 		super();
 		this.streamId = streamId;
 		this.streamCode = streamCode;
 		this.streamName = streamName;
-		this.students = students;
+		this.universitiesWithStream = universitiesWithStream;
 		this.collegesWithStream = collegesWithStream;
 	}
 
@@ -77,14 +82,16 @@ public class Stream {
 		this.streamName = streamName;
 	}
 
-	public List<Student> getStudents() {
-		return students;
+	@JsonBackReference("streamsInUniversity")
+	public Set<University> getUniversitiesWithStream() {
+		return universitiesWithStream;
 	}
 
-	public void setStudents(List<Student> students) {
-		this.students = students;
+	public void setUniversitiesWithStream(Set<University> universitiesWithStream) {
+		this.universitiesWithStream = universitiesWithStream;
 	}
 
+	@JsonBackReference("streamsInCollege")
 	public Set<College> getCollegesWithStream() {
 		return collegesWithStream;
 	}
@@ -93,5 +100,4 @@ public class Stream {
 		this.collegesWithStream = collegesWithStream;
 	}
 
-	
 }

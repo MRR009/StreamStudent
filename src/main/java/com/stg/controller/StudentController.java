@@ -14,51 +14,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stg.entity.Student;
-import com.stg.serviceinterfaces.StudentService;
+import com.stg.entity.Aspirant;
+import com.stg.serviceinterfaces.AspirantService;
+
 @CrossOrigin(value="http://localhost:4200/")
 @RestController
 @RequestMapping(value = "student")
 public class StudentController {
 	@Autowired
-	private StudentService studentService;
+	private AspirantService aspirantService;
 
 	/*---------------------------------------CREATE---------------------------------------------------- */
 	
 	@PostMapping(value = "add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Student createStudent(@RequestBody Student student) {
-		return studentService.createStudent(student);
+	public Aspirant createStudent(@RequestBody Aspirant aspirant) {
+		return aspirantService.createAspirant(aspirant);
 	}
 
 	/*---------------------------------------READ---------------------------------------------------- */
 
 	@GetMapping(value = "getbyrollno")
-	public Student readStudentByUsername(@RequestParam String username) {
-		return studentService.readyByStudentUsername(username);
+	public Aspirant readStudentByUsername(@RequestParam String username) {
+		return aspirantService.readyByUsername(username);
 	}
 
 	@GetMapping(value = "getall")
-	public List<Student> getAllStudents() {
-		return studentService.getAllStudents();
+	public List<Aspirant> getAllStudents() {
+		return aspirantService.getAllAspirants();
 	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 	
 	@PutMapping(value = "update", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Student updateStudent(@RequestBody Student student) {
-		return studentService.updateStudent(student);
+	public Aspirant updateStudent(@RequestBody Aspirant aspirant) {
+		return aspirantService.updateAspirant(aspirant);
 	}
 
 	@PutMapping(value = "updatepassword")
-	public Student updateStudentPassword(@RequestParam String rollNo, @RequestParam String newPassword) {
-		return studentService.updateStudentPassword(rollNo, newPassword);
+	public Aspirant updateStudentPassword(@RequestParam String username, @RequestParam String newPassword) {
+		return aspirantService.updatePassword(username, newPassword);
 	}
 
 	
 	/*---------------------------------------DELETE---------------------------------------------------- */
 	
-	@DeleteMapping(value = "deletebycode")
+	@DeleteMapping(value = "deletebyusername")
 	public String deleteStudentByUsername(@RequestParam String username) {
-		return studentService.removeStudentByUsername(username);
+		return aspirantService.removeByUsername(username);
 	}
 }

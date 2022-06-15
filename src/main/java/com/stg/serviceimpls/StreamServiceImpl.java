@@ -39,9 +39,7 @@ public class StreamServiceImpl implements StreamService {
 	public Stream addStreamInCollege(Stream stream, String collegeCode) throws CustomExcepHandler {
 		Stream tempStream = null;
 		College college = collegeRepository.findByCollegeCode(collegeCode);
-		int clgId = college.getCollegeId();
 		if (streamRepository.findByStreamCode(stream.getStreamCode()) == null) {
-			System.out.println("if condition triggered");
 			stream.getCollegesWithStream().add(college);
 			college.getStreamsInCollege().add(stream);
 			tempStream = streamRepository.save(stream);
