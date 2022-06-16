@@ -46,6 +46,13 @@ public class CollegeServiceImpl implements CollegeService {
 			throw new CustomExcepHandler("Please check your values once");
 		}
 	}
+	
+	@Override
+	public College AssignCollegeToUniversity(String clgCode, String uniCode) throws CustomExcepHandler {
+		College college = collegeRepository.findByCollegeCode(uniCode);
+		college.getUniversity().setUniversityCode(uniCode);
+		return college;
+	}
 
 	@Override
 	public College addCertainStream(String streamCode, String CollegeCode) throws CustomExcepHandler {
@@ -152,6 +159,8 @@ public class CollegeServiceImpl implements CollegeService {
 		}
 
 	}
+
+	
 
 	
 

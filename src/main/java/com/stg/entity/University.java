@@ -1,5 +1,6 @@
 package com.stg.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,9 +38,16 @@ public class University {
 	@Column(length = 4)
 	private int establishedIn;
 
+	public enum uniType {
+		PRIVATE, PUBLIC
+	}
+
+	@Column
+	private uniType universityType;
+
 	@JsonManagedReference(value = "unicol")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "university")
-	private List<College> colleges;
+	private List<College> colleges = new ArrayList<College>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinTable(name = "unistreamjunc", joinColumns = @JoinColumn(name = "universityId"), inverseJoinColumns = @JoinColumn(name = "streamId"))
@@ -49,8 +57,7 @@ public class University {
 	@JoinTable(name = "unicoursejunc", joinColumns = @JoinColumn(name = "universityId"), inverseJoinColumns = @JoinColumn(name = "courseId"))
 	private Set<Course> coursesInUniversity = new HashSet<Course>();
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "universityFk", referencedColumnName = "addressId")
+	@OneToOne(mappedBy = "university")
 	private Address address;
 
 	public University() {
@@ -100,6 +107,14 @@ public class University {
 
 	public void setEstablishedIn(int establishedIn) {
 		this.establishedIn = establishedIn;
+	}
+
+	public uniType getUniversityType() {
+		return universityType;
+	}
+
+	public void setUniversityType(uniType universityType) {
+		this.universityType = universityType;
 	}
 
 	public List<College> getColleges() {

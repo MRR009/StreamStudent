@@ -19,39 +19,39 @@ import com.stg.serviceinterfaces.AspirantService;
 
 @CrossOrigin(value="http://localhost:4200/")
 @RestController
-@RequestMapping(value = "student")
-public class StudentController {
+@RequestMapping(value = "aspirant")
+public class AspirantController {
 	@Autowired
 	private AspirantService aspirantService;
 
 	/*---------------------------------------CREATE---------------------------------------------------- */
 	
 	@PostMapping(value = "add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Aspirant createStudent(@RequestBody Aspirant aspirant) {
+	public Aspirant createAspirant(@RequestBody Aspirant aspirant) {
 		return aspirantService.createAspirant(aspirant);
 	}
 
 	/*---------------------------------------READ---------------------------------------------------- */
 
-	@GetMapping(value = "getbyrollno")
-	public Aspirant readStudentByUsername(@RequestParam String username) {
+	@GetMapping(value = "getbyusername")
+	public Aspirant readAspirantByUsername(@RequestParam String username) {
 		return aspirantService.readyByUsername(username);
 	}
 
 	@GetMapping(value = "getall")
-	public List<Aspirant> getAllStudents() {
+	public List<Aspirant> getAllAspirants() {
 		return aspirantService.getAllAspirants();
 	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 	
 	@PutMapping(value = "update", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Aspirant updateStudent(@RequestBody Aspirant aspirant) {
+	public Aspirant updateAspirant(@RequestBody Aspirant aspirant) {
 		return aspirantService.updateAspirant(aspirant);
 	}
 
 	@PutMapping(value = "updatepassword")
-	public Aspirant updateStudentPassword(@RequestParam String username, @RequestParam String newPassword) {
+	public Aspirant updateAspirantPassword(@RequestParam String username, @RequestParam String newPassword) {
 		return aspirantService.updatePassword(username, newPassword);
 	}
 

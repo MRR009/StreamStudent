@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -31,7 +33,7 @@ public class College {
 	@Column(length = 6, unique = true, columnDefinition = "varchar(6) default 'XX'")
 	private String collegeCode;
 
-	@Column(length = 60)
+	@Column(length = 100)
 	private String collegeName;
 
 	@Column
@@ -41,8 +43,11 @@ public class College {
 	private int establishedIn;
 
 	public enum collType {
-		PRIVATE, GOVERNMENT
+		PRIVATE, PUBLIC
 	}
+
+	@Column
+	private String collegeInfo;
 
 	@Column
 	private String collegeDescription;
@@ -53,6 +58,7 @@ public class College {
 	@Column
 	private String collegeImage;
 
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "universityFk", referencedColumnName = "universityId", nullable = false)
 	@JsonBackReference(value = "unicol")
@@ -66,8 +72,7 @@ public class College {
 	@JoinTable(name = "collegecoursejunc", joinColumns = @JoinColumn(name = "collegeId"), inverseJoinColumns = @JoinColumn(name = "courseId"))
 	private Set<Course> coursesInCollege = new HashSet<Course>();
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "collegeFk", referencedColumnName = "addressId")
+	@OneToOne(mappedBy = "college")
 	private Address address;
 
 	public College() {
@@ -156,7 +161,14 @@ public class College {
 		this.establishedIn = establishedIn;
 	}
 
-	@JsonBackReference(value = "unicol")
+	public String getCollegeInfo() {
+		return collegeInfo;
+	}
+
+	public void setCollegeInfo(String collegeInfo) {
+		this.collegeInfo = collegeInfo;
+	}
+
 	public University getUniversity() {
 		return university;
 	}
@@ -189,6 +201,7 @@ public class College {
 		this.address = address;
 	}
 
+	
 	public String getUniversityCode() {
 		return university.getUniversityCode();
 	}

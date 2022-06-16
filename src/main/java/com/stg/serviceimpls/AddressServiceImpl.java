@@ -41,7 +41,9 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public Address addAddressToUniversity(Address address, String universityCode) throws CustomExcepHandler {
 		int universityId = universityRepository.findByUniversityCode(universityCode).getUniversityId();
-		address.getUniversity().setUniversityId(universityId);
+		System.out.println((universityId));
+		addressRepository.save(address);
+		addressRepository.updateUniversityAddress(universityId, address.getAddressId());
 		return address;
 	}
 	
