@@ -58,7 +58,9 @@ public class College {
 	@Column
 	private String collegeImage;
 
-	
+	@Column
+	private String collegeLink;
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "universityFk", referencedColumnName = "universityId", nullable = false)
 	@JsonBackReference(value = "unicol")
@@ -169,6 +171,14 @@ public class College {
 		this.collegeInfo = collegeInfo;
 	}
 
+	public String getCollegeLink() {
+		return collegeLink;
+	}
+
+	public void setCollegeLink(String collegeLink) {
+		this.collegeLink = collegeLink;
+	}
+
 	public University getUniversity() {
 		return university;
 	}
@@ -201,7 +211,6 @@ public class College {
 		this.address = address;
 	}
 
-	
 	public String getUniversityCode() {
 		return university.getUniversityCode();
 	}

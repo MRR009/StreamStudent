@@ -45,6 +45,9 @@ public class University {
 	@Column
 	private uniType universityType;
 
+	@Column
+	private String universityLink;
+
 	@JsonManagedReference(value = "unicol")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "university")
 	private List<College> colleges = new ArrayList<College>();
@@ -111,6 +114,14 @@ public class University {
 
 	public uniType getUniversityType() {
 		return universityType;
+	}
+
+	public String getUniversityLink() {
+		return universityLink;
+	}
+
+	public void setUniversityLink(String universityLink) {
+		this.universityLink = universityLink;
 	}
 
 	public void setUniversityType(uniType universityType) {
