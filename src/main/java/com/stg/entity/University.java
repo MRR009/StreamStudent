@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonIgnoreProperties("college")
 @Entity
@@ -39,7 +40,7 @@ public class University {
 	private int establishedIn;
 
 	public enum uniType {
-		PRIVATE, PUBLIC
+		PRIVATE, PUBLIC, DEEMED, AUTONOMOUS
 	}
 
 	@Column
@@ -60,6 +61,7 @@ public class University {
 	@JoinTable(name = "unicoursejunc", joinColumns = @JoinColumn(name = "universityId"), inverseJoinColumns = @JoinColumn(name = "courseId"))
 	private Set<Course> coursesInUniversity = new HashSet<Course>();
 
+	
 	@OneToOne(mappedBy = "university")
 	private Address address;
 

@@ -203,6 +203,7 @@ public class College {
 		this.coursesInCollege = coursesInCollege;
 	}
 
+	@JsonBackReference("address")
 	public Address getAddress() {
 		return address;
 	}

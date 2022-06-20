@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 public class Address {
 
@@ -112,6 +115,7 @@ public class Address {
 		this.college = college;
 	}
 
+	@JsonBackReference("address")
 	public University getUniversity() {
 		return university;
 	}
