@@ -212,8 +212,5 @@ public class College {
 		this.address = address;
 	}
 
-	public String getUniversityCode() {
-		return university.getUniversityCode();
-	}
 
 }
