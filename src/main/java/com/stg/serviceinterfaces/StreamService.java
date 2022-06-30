@@ -12,6 +12,8 @@ public interface StreamService {
 	
 	public abstract Stream addStreamInCollege(Stream stream, String collegeCode)throws CustomExcepHandler;
 	
+	public abstract List<College> getCollegesWithStreams(List<String> streamCodes)throws CustomExcepHandler;
+	
 	public abstract Stream readStreamByCode(String code)throws CustomExcepHandler;
 	
 	public abstract List<Stream> getAllStreams()throws CustomExcepHandler;

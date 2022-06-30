@@ -18,6 +18,7 @@ public interface UniversityService {
 	
 	public abstract University updateUniversity(University university)throws CustomExcepHandler;
 	
+	public abstract List<College> getCollegesWithUniversities(List<String> univeristyCodes) throws CustomExcepHandler;
 	
 	public abstract String deleteUniversityByCode(String uniCode)throws CustomExcepHandler;
 	

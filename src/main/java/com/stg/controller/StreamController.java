@@ -53,6 +53,11 @@ public class StreamController {
 	public List<College> getCollegsWithStream(@RequestParam String strmCode){
 		return streamService.getCollegesWithStream(strmCode);
 	}
+	
+	@GetMapping(value="collegeswithstreams")
+	public List<College> getCollegesWithStreams(@RequestParam(value = "streamCodes", required = false) List<String> streamCodes){
+		return streamService.getCollegesWithStreams(streamCodes);
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 

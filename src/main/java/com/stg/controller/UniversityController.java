@@ -56,6 +56,11 @@ public class UniversityController {
 	public List<College> getCollegesInUniversity(@RequestParam String uniCode){
 		return universityService.getCollegesInUniversity(uniCode);
 	}
+	
+	@GetMapping(value = "collegesinuniversities")
+	public List<College> getCollegesWithUniversities(@RequestParam(value = "universityCodes", required = false) List<String> universityCodes){
+		return universityService.getCollegesWithUniversities(universityCodes);
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 

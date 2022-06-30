@@ -1,5 +1,6 @@
 package com.stg.serviceimpls;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,6 +74,24 @@ public class StreamServiceImpl implements StreamService {
 		}
 		
 	}
+	
+	@Override
+	public List<College> getCollegesWithStreams(List<String> streamCodes) throws CustomExcepHandler {
+		 List<Integer> streamIds = new ArrayList<Integer>();
+		 List<Integer> collegeIds = new ArrayList<Integer>();
+		 if(streamCodes != null) {
+			 for (String strmCode : streamCodes) {
+				 if(streamRepository.findByStreamCode(strmCode) != null) {
+					 streamIds.add(streamRepository.findByStreamCode(strmCode).getStreamId());
+				 }else {
+						throw new CustomExcepHandler("Stream with the given code not found");
+					}
+			} 
+		 }
+		 
+		 collegeIds = streamRepository.getCollegesIdsWithStream(streamIds);
+		 return collegeRepository.getCollegesWithStream(collegeIds);
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 
@@ -110,6 +129,8 @@ public class StreamServiceImpl implements StreamService {
 			throw new CustomExcepHandler("Cannot delete stream. Couldnt find stream with the given stream code");
 		}
 	}
+
+	
 
 
 

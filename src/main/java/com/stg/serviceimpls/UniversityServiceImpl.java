@@ -1,5 +1,6 @@
 package com.stg.serviceimpls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,21 @@ public class UniversityServiceImpl implements UniversityService {
 		}
 		
 	}
+	
+	@Override
+	public List<College> getCollegesWithUniversities(List<String> univeristyCodes) throws CustomExcepHandler {
+		List<Integer> universityIds = new ArrayList<Integer>();
+		List<Integer> collegeIds = new ArrayList<Integer>();
+		if(univeristyCodes != null) {
+			for (String code : univeristyCodes) {
+				universityIds.add(universityRepository.findByUniversityCode(code).getUniversityId());
+			}
+			
+		}
+		collegeIds = universityRepository.getCollegesWithUniversities(universityIds);
+		return collegeRepository.getCollegesWithStream(collegeIds);
+		
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 
@@ -118,6 +134,8 @@ public class UniversityServiceImpl implements UniversityService {
 		}
 
 	}
+
+	
 
 	
 

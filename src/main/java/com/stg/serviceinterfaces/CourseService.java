@@ -12,6 +12,8 @@ public interface CourseService {
 	
 	public abstract Course addCourseInCollege(Course course, String collegeCode)throws CustomExcepHandler;
 	
+	public abstract Course setStreamToCourse(String streamCode, String courseCode) throws CustomExcepHandler;
+	
 	public abstract Course readCourseByCode(String courseCode)throws CustomExcepHandler;
 	
 	public abstract List<Course> getAllCourses()throws CustomExcepHandler;

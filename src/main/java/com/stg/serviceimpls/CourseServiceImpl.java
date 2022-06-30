@@ -11,6 +11,7 @@ import com.stg.entity.Stream;
 import com.stg.exception.CustomExcepHandler;
 import com.stg.repository.CollegeRepository;
 import com.stg.repository.CourseRepository;
+import com.stg.repository.StreamRepository;
 import com.stg.serviceinterfaces.CourseService;
 
 @Service
@@ -21,11 +22,16 @@ public class CourseServiceImpl implements CourseService {
 
 	@Autowired
 	private CollegeRepository collegeRepository;
+	
+	@Autowired
+	private StreamRepository streamRepository;
 
 	/*---------------------------------------CREATE---------------------------------------------------- */
 	@Override
 	public Course createCourse(Course course) throws CustomExcepHandler {
 		if (courseRepository.findByCourseCode(course.getCourseCode()) == null) {
+			courseRepository.setDefaultForColumn();
+			courseRepository.setForeignKeyChecks();
 			return courseRepository.save(course);
 		} else {
 			throw new CustomExcepHandler("Course with this Code Already Exists");
@@ -92,6 +98,14 @@ public class CourseServiceImpl implements CourseService {
 		}
 	}
 
+	@Override
+	public Course setStreamToCourse(String streamCode, String courseCode) throws CustomExcepHandler {
+		int courseId = courseRepository.findByCourseCode(courseCode).getCourseId();
+		int streamId = streamRepository.findByStreamCode(streamCode).getStreamId();
+		
+		courseRepository.setStreamToCourse(streamId, courseId);
+		return courseRepository.findByCourseCode(courseCode);
+	}
 	/*---------------------------------------DELETE---------------------------------------------------- */
 
 	@Override
@@ -99,6 +113,8 @@ public class CourseServiceImpl implements CourseService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 	/*---------------------------------------END---------------------------------------------------- */
 }

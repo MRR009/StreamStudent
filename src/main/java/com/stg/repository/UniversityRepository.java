@@ -1,9 +1,13 @@
  package com.stg.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.stg.entity.College;
 import com.stg.entity.University;
 @Repository
 public interface UniversityRepository extends JpaRepository<University, Integer> {
@@ -22,6 +26,9 @@ public interface UniversityRepository extends JpaRepository<University, Integer>
 	public University findByUniversityCode(String code);
 	
 	public University findByUniversityName(String name);
+	
+	@Query(value = "SELECT college_id FROM college WHERE university_fk IN ?1", nativeQuery = true)
+	public List<Integer> getCollegesWithUniversities(List<Integer> universityIds);
 
 	
 	public void deleteByUniversityCode(String uniCode);

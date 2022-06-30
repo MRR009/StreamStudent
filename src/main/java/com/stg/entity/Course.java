@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Cascade;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -49,26 +51,34 @@ public class Course {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "streamsInCollege")
 	private Set<College> collegesWithCourse = new HashSet<College>();
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-	@JoinColumn(name = "streamFk", referencedColumnName = "streamId", nullable = false)
-	@JsonBackReference(value = "strmcrs")
+	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.PERSIST,
+		     org.hibernate.annotations.CascadeType.MERGE })
+	@ManyToOne(fetch = FetchType.LAZY/*, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}*/)
+	@JoinColumn(name = "streamFk", referencedColumnName = "streamId", columnDefinition = "integer default 0")
 	private Stream stream;
 
 	public Course() {
 		super();
 	}
 
+	
+
 	public Course(int courseId, String courseCode, String courseName, int courseFee, int courseDuration,
-			Set<University> universitiesWithCourse, Set<College> collegesWithCourse) {
+			coursType courseType, Set<University> universitiesWithCourse, Set<College> collegesWithCourse,
+			Stream stream) {
 		super();
 		this.courseId = courseId;
 		this.courseCode = courseCode;
 		this.courseName = courseName;
 		this.courseFee = courseFee;
 		this.courseDuration = courseDuration;
+		this.courseType = courseType;
 		this.universitiesWithCourse = universitiesWithCourse;
 		this.collegesWithCourse = collegesWithCourse;
+		this.stream = stream;
 	}
+
+
 
 	public int getCourseId() {
 		return courseId;
@@ -108,6 +118,23 @@ public class Course {
 
 	public void setCourseDuration(int courseDuration) {
 		this.courseDuration = courseDuration;
+	}
+	
+	public coursType getCourseType() {
+		return courseType;
+	}
+
+	public void setCourseType(coursType courseType) {
+		this.courseType = courseType;
+	}
+
+	@JsonBackReference(value = "coursesInStream")
+	public Stream getStream() {
+		return stream;
+	}
+
+	public void setStream(Stream stream) {
+		this.stream = stream;
 	}
 
 	@JsonBackReference("coursesInUniversity")
