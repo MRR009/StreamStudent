@@ -30,4 +30,38 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	@Transactional
 	@Query(value = "UPDATE course SET stream_fk = :stream_id WHERE course_id = :cour_id", nativeQuery = true)
 	public void setStreamToCourse(@Param("stream_id") int streamId,@Param("cour_id") int courseId);
+	
+	@Modifying
+	@Transactional
+	@Query(value="UPDATE course SET course_name = :course_name WHERE course_id = :course_id", nativeQuery = true)
+	public void updateCourseName(@Param("course_id") int courseId,@Param("course_name") String courseName);
+	
+	@Modifying
+	@Transactional
+	@Query(value="UPDATE course SET course_code = :course_code WHERE course_id = :course_id", nativeQuery = true)
+	public void updateCourseCode(@Param("course_id") int courseId,@Param("course_code") String courseCode);
+	
+	@Modifying
+	@Transactional
+	@Query(value="UPDATE course SET course_fee = :cour_fee WHERE course_id = :cour_id", nativeQuery = true)
+	public void updateCourseFee(@Param("cour_fee") int courseFee, @Param("cour_id") int courseId);
+	
+	@Modifying
+	@Transactional
+	@Query(value="UPDATE course SET course_duration = :course_duration WHERE course_id = :course_id", nativeQuery = true)
+	public void updateCourseDuration(@Param("course_id") int courseId,@Param("course_duration") int courseDuration);
+	
+	
+	/*
+	 * @Modifying
+	 * 
+	 * @Transactional
+	 * 
+	 * @Query(
+	 * value="UPDATE course c SET c.courseType = :course_type WHERE c.courseId = :course_id"
+	 * ) public void updateCourseType(@Param("course_id") int
+	 * courseId,@Param("course_type") int courseType);
+	 */
+	
+	
 }

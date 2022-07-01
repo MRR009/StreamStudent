@@ -92,6 +92,37 @@ public class StreamServiceImpl implements StreamService {
 		 collegeIds = streamRepository.getCollegesIdsWithStream(streamIds);
 		 return collegeRepository.getCollegesWithStream(collegeIds);
 	}
+	
+	
+	@Override
+	public Stream readStreamByName(String name) throws CustomExcepHandler {
+		// TODO Auto-generated method stub
+		return streamRepository.findBystreamName(name);
+	}
+	
+	
+	@Override
+	public Stream updateStreamName(String streamName, String newName) throws CustomExcepHandler {
+		if(streamRepository.findBystreamName(streamName) != null){
+			int streamId = streamRepository.findBystreamName(streamName).getStreamId();
+			streamRepository.updateStreamName(streamId, newName);
+			 return streamRepository.findByStreamId(streamId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public Stream updateStreamCode(String streamName, String newCode) throws CustomExcepHandler {
+		if(streamRepository.findBystreamName(streamName) != null){
+			int streamId = streamRepository.findBystreamName(streamName).getStreamId();
+			streamRepository.updateStreamCode(streamId, newCode);
+			 return streamRepository.findByStreamId(streamId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 
@@ -129,6 +160,9 @@ public class StreamServiceImpl implements StreamService {
 			throw new CustomExcepHandler("Cannot delete stream. Couldnt find stream with the given stream code");
 		}
 	}
+
+	
+
 
 	
 

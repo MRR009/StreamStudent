@@ -95,6 +95,13 @@ public class UniversityServiceImpl implements UniversityService {
 		return collegeRepository.getCollegesWithStream(collegeIds);
 		
 	}
+	
+	
+	@Override
+	public University readUniversityByName(String name) throws CustomExcepHandler {
+		// TODO Auto-generated method stub
+		return universityRepository.findByUniversityName(name);
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 
@@ -106,6 +113,47 @@ public class UniversityServiceImpl implements UniversityService {
 			throw new CustomExcepHandler("No University Exists to Update. Give valid values.");
 		}
 
+	}
+	
+	@Override
+	public University updateUniversityName(String universityName, String newName) throws CustomExcepHandler {
+		if(universityRepository.findByUniversityName(universityName) != null){
+			int universityId = universityRepository.findByUniversityName(universityName).getUniversityId();
+			universityRepository.updateUniversityName(universityId, universityName);
+			 return universityRepository.findByUniversityId(universityId);
+		} else {
+			throw new CustomExcepHandler("No University Found");
+		}
+	}
+
+	@Override
+	public University updateUniversityCode(String universityName, String newCode) throws CustomExcepHandler {
+		if(universityRepository.findByUniversityName(universityName) != null){
+			int universityId = universityRepository.findByUniversityName(universityName).getUniversityId();
+			universityRepository.updateUniveristyCode(universityId, newCode);
+			 return universityRepository.findByUniversityId(universityId);
+		} else {
+			throw new CustomExcepHandler("No University Found");
+		}
+	}
+
+	@Override
+	public University updateUniversityEst(String universityName, int newEstb) throws CustomExcepHandler {
+		if(universityRepository.findByUniversityName(universityName) != null){
+			int universityId = universityRepository.findByUniversityName(universityName).getUniversityId();
+			universityRepository.updateUniversityEst(universityId, newEstb);
+			 return universityRepository.findByUniversityId(universityId);
+		} else {
+			throw new CustomExcepHandler("No University Found");
+		}
+	}
+	
+	@Override
+	public College asgnCollegetoUniversity(String collegeName, String universityName) throws CustomExcepHandler {
+		int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+		int universityId = universityRepository.findByUniversityName(universityName).getUniversityId();
+		universityRepository.asgnCollegetoUniversity(collegeId, universityId);
+		return collegeRepository.findByCollegeName(collegeName);
 	}
 
 
@@ -134,6 +182,12 @@ public class UniversityServiceImpl implements UniversityService {
 		}
 
 	}
+
+	
+
+	
+
+	
 
 	
 

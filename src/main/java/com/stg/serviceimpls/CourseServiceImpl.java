@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.stg.entity.College;
 import com.stg.entity.Course;
+import com.stg.entity.Course.coursType;
 import com.stg.entity.Stream;
 import com.stg.exception.CustomExcepHandler;
 import com.stg.repository.CollegeRepository;
@@ -63,6 +64,17 @@ public class CourseServiceImpl implements CourseService {
 			return courseRepository.findByCourseCode(courseCode);
 		}
 	}
+	
+	@Override
+	public Course readCourseByName(String courseName) throws CustomExcepHandler {
+		if(courseRepository.findByCourseName(courseName) != null) {
+			return courseRepository.findByCourseName(courseName);
+		}else {
+			throw new CustomExcepHandler("No course found with the given code");
+		}
+		
+	}
+
 
 	@Override
 	public List<Course> getAllCourses() throws CustomExcepHandler {
@@ -106,6 +118,65 @@ public class CourseServiceImpl implements CourseService {
 		courseRepository.setStreamToCourse(streamId, courseId);
 		return courseRepository.findByCourseCode(courseCode);
 	}
+	
+	@Override
+	public Course updateCourseName(String courseName, String newName) throws CustomExcepHandler {
+		if(courseRepository.findByCourseName(courseName) != null){
+			int courseId = courseRepository.findByCourseName(courseName).getCourseId();
+			  courseRepository.updateCourseName(courseId, newName);
+			  return courseRepository.getById(courseId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public Course updateCourseCode(String courseName, String newName) throws CustomExcepHandler {
+		if(courseRepository.findByCourseName(courseName) != null){
+			int courseId = courseRepository.findByCourseName(courseName).getCourseId();
+			 courseRepository.updateCourseCode(courseId, newName);
+			 return courseRepository.getById(courseId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+		
+	}
+
+	@Override
+	public Course updateCourseFee(String courseName, int newName) throws CustomExcepHandler {
+		if(courseRepository.findByCourseName(courseName) != null){
+			int courseId = courseRepository.findByCourseName(courseName).getCourseId();
+			 courseRepository.updateCourseFee(newName, courseId);
+			return courseRepository.getById(courseId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public Course updateCourseDuration(String courseName, int newFee) throws CustomExcepHandler {
+		if(courseRepository.findByCourseName(courseName) != null){
+			int courseId = courseRepository.findByCourseName(courseName).getCourseId();
+			//System.out.println(courseId);
+			 courseRepository.updateCourseDuration(courseId, newFee);
+			return courseRepository.getById(courseId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public Course updateCourseType(String courseName, coursType newName) throws CustomExcepHandler {
+		if(courseRepository.findByCourseName(courseName) != null){
+			int courseId = courseRepository.findByCourseName(courseName).getCourseId();
+			//course.setCourseType(newName);
+			return courseRepository.findByCourseName(courseName);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	
 	/*---------------------------------------DELETE---------------------------------------------------- */
 
 	@Override
@@ -114,6 +185,7 @@ public class CourseServiceImpl implements CourseService {
 		return null;
 	}
 
+	
 	
 
 	/*---------------------------------------END---------------------------------------------------- */

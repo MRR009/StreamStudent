@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stg.entity.College;
 import com.stg.entity.Course;
+import com.stg.entity.Course.coursType;
 import com.stg.serviceinterfaces.CourseService;
-@CrossOrigin(value="http://localhost:4200/")
+@CrossOrigin(value ="http://localhost:4200/")
 @RestController
 @RequestMapping(value = "course")
 public class CourseController {
@@ -39,6 +40,11 @@ public class CourseController {
 	@GetMapping(value="readbycode")
 	public Course readCourseByCode(@RequestParam String courseCode) {
 		return courseService.readCourseByCode(courseCode);
+	}
+	
+	@GetMapping(value="readByName")
+	public Course readCourseByName(@RequestParam String courseName) {
+		return courseService.readCourseByName(courseName);
 	}
 	
 	@GetMapping(value="getall")
@@ -66,6 +72,32 @@ public class CourseController {
 	public Course setStreamToCourse(@RequestParam String streamCode, @RequestParam String courseCode ) {
 		return courseService.setStreamToCourse(streamCode, courseCode);
 	}
+	
+	@PutMapping(value="updatecoursename")
+	public Course updateCourseName(@RequestParam String courseName,@RequestParam String newName) {
+		return courseService.updateCourseName(courseName, newName);
+	}
+	
+	@PutMapping(value="updatecoursecode")
+	public Course updateCourseCode(@RequestParam String courseName,@RequestParam String newName) {
+		return courseService.updateCourseCode(courseName, newName);
+	}
+	
+	@PutMapping(value="updatecoursefee")
+	public Course updateCourseFee(@RequestParam String courseName,@RequestParam int newName) {
+		return courseService.updateCourseFee(courseName, newName);
+	}
+	
+	@PutMapping(value="updatecourseduration")
+	public Course updateCourseDuration(@RequestParam String courseName,@RequestParam int newName) {
+		return courseService.updateCourseDuration(courseName, newName);
+	}
+	
+	@PutMapping(value="updatecoursetype")
+	public Course updateCourseType(@RequestParam String courseName,@RequestParam coursType newName) {
+		return courseService.updateCourseType(courseName, newName);
+	}
+	
 	
 	/*---------------------------------------DELETE---------------------------------------------------- */
 	

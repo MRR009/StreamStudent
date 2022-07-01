@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stg.entity.College;
+import com.stg.entity.College.collType;
 import com.stg.entity.Course;
+import com.stg.entity.Course.coursType;
 import com.stg.entity.Stream;
 import com.stg.entity.University;
 import com.stg.exception.CustomExcepHandler;
@@ -36,11 +38,11 @@ public class CollegeServiceImpl implements CollegeService {
 	@Override
 	public College createCollege(College college) throws CustomExcepHandler {
 
-		University university = universityRepository.findByUniversityCode(college.getUniversity().getUniversityCode());
-		if (university != null) {
-			int uniId = university.getUniversityId();
-			university = null;
-			college.getUniversity().setUniversityId(uniId);
+		//University university = universityRepository.findByUniversityCode(college.getUniversity().getUniversityCode());
+		if (college != null) {
+			//int uniId = university.getUniversityId();
+			collegeRepository.setDefaultForColumn();
+			collegeRepository.setForeignKeyChecks();
 			return collegeRepository.save(college);
 		} else {
 			throw new CustomExcepHandler("Please check your values once");
@@ -133,6 +135,12 @@ public class CollegeServiceImpl implements CollegeService {
 		}
 
 	}
+	
+	@Override
+	public College readCollegeByName(String collegeName) throws CustomExcepHandler {
+		
+		return collegeRepository.findByCollegeName(collegeName);
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 
@@ -144,6 +152,105 @@ public class CollegeServiceImpl implements CollegeService {
 			throw new CustomExcepHandler("No College found to update");
 		}
 
+	}
+	
+	@Override
+	public College updateCollegeName(String collegeName, String newName) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeName(collegeId, collegeName);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeCode(String collegeName, String newCode) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeCode(collegeId, newCode);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateEstablishedIn(String collegeName, int newEstabYear) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeEst(collegeId, newEstabYear);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeInfo(String collegeName, String newColegeInfo) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeInfo(collegeId, newColegeInfo);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeType(String collegeName, collType newType) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeName(collegeId, collegeName);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeDescription(String collegeName, String newCollegeDescription) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeDescription(collegeId, newCollegeDescription);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeLogo(String collegeName, String newCollegeLogo) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeLogo(collegeId, newCollegeLogo);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeImage(String collegeName, String newCollegeImage) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeImage(collegeId, newCollegeImage);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
+	}
+
+	@Override
+	public College updateCollegeLink(String collegeName, String newCollegeLink) throws CustomExcepHandler {
+		if(collegeRepository.findByCollegeName(collegeName) != null){
+			int collegeId = collegeRepository.findByCollegeName(collegeName).getCollegeId();
+			collegeRepository.updateCollegeLink(collegeId, newCollegeLink);
+			 return collegeRepository.findByCollegeId(collegeId);
+		} else {
+			throw new CustomExcepHandler("No Course Found");
+		}
 	}
 
 	/*---------------------------------------DELETE---------------------------------------------------- */
@@ -159,6 +266,8 @@ public class CollegeServiceImpl implements CollegeService {
 		}
 
 	}
+
+	
 
 	
 

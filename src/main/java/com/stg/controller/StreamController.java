@@ -43,6 +43,12 @@ public class StreamController {
 	public Stream readStreamByCode(@RequestParam String strmCode) {
 		return streamService.readStreamByCode(strmCode);
 	}
+	
+	@GetMapping(value = "getbyname")
+	public Stream readStreamByName(@RequestParam String strmName) {
+		System.out.println(strmName);
+		return streamService.readStreamByName(strmName);
+	}
 
 	@GetMapping(value = "getall")
 	public List<Stream> getAllStreams() {
@@ -69,6 +75,16 @@ public class StreamController {
 	@PutMapping(value = "updatebycode")
 	public Stream updateStreamByCode(@RequestParam String streamCode, @RequestParam String newName) {
 		return streamService.upateStreamNameByCode(streamCode, newName);
+	}
+	
+	@PutMapping(value = "updatestreamname")
+	public Stream updateStreamName(@RequestParam String streamName,@RequestParam String newName) {
+		return streamService.updateStreamName(streamName, newName);
+	}
+	
+	@PutMapping(value = "updatestreamcode")
+	public Stream updateStreamCode(@RequestParam String streamName,@RequestParam String newCode) {
+		return streamService.updateStreamCode(streamName, newCode);
 	}
 
 	/*---------------------------------------DELETE---------------------------------------------------- */

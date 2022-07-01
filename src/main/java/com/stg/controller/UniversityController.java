@@ -61,6 +61,12 @@ public class UniversityController {
 	public List<College> getCollegesWithUniversities(@RequestParam(value = "universityCodes", required = false) List<String> universityCodes){
 		return universityService.getCollegesWithUniversities(universityCodes);
 	}
+	
+	@GetMapping(value = "getbyname")
+	public University readUniversityByName(@RequestParam String name) throws CustomExcepHandler {
+		// TODO Auto-generated method stub
+		return universityService.readUniversityByName(name);
+	}
 
 	/*---------------------------------------UPDATE---------------------------------------------------- */
 
@@ -68,6 +74,31 @@ public class UniversityController {
 	public University updateUniversity(@RequestBody University university) {
 		return universityService.updateUniversity(university);
 	}
+	
+	@PutMapping(value = "updatename")
+	public University updateUniversityName(@RequestParam String universityName,@RequestParam String newName) throws CustomExcepHandler {
+		
+		return universityService.updateUniversityName(universityName, newName);
+	}
+
+	@PutMapping(value = "updatecode")
+	public University updateUniversityCode(@RequestParam String universityName,@RequestParam String newCode) throws CustomExcepHandler {
+		
+		return universityService.updateUniversityCode(universityName, newCode);
+	}
+
+	@PutMapping(value = "updateestablished")
+	public University updateUniversityEst(@RequestParam String universityName,@RequestParam int newEstb) throws CustomExcepHandler {
+		// TODO Auto-generated method stub
+		return universityService.updateUniversityEst(universityName, newEstb);
+	}
+	
+	@PutMapping(value = "asgnclgtouni")
+	public College asgnCollegetoUniversity(@RequestParam String collegeName,@RequestParam String universityName) {
+		return universityService.asgnCollegetoUniversity(collegeName, universityName);
+	}
+
+	
 
 
 	/*---------------------------------------DELETE---------------------------------------------------- */

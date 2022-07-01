@@ -16,9 +16,14 @@ public interface StreamService {
 	
 	public abstract Stream readStreamByCode(String code)throws CustomExcepHandler;
 	
+	public abstract Stream readStreamByName(String name)throws CustomExcepHandler;
+	
 	public abstract List<Stream> getAllStreams()throws CustomExcepHandler;
 	
 	public abstract Stream updateStream(Stream Stream)throws CustomExcepHandler;  
+	
+	public abstract Stream updateStreamName(String streamName, String newName) throws CustomExcepHandler;
+	public abstract Stream updateStreamCode(String streamName, String newCode) throws CustomExcepHandler;
 	
 	public abstract Stream upateStreamNameByCode(String streamCode, String changedname)throws CustomExcepHandler;
 	
