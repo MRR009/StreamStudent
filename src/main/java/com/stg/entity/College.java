@@ -61,7 +61,7 @@ public class College {
 	@Column
 	private String collegeLink;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH/* , CascadeType.PERSIST */ })
 	@JoinColumn(name = "universityFk", referencedColumnName = "universityId")
 	@JsonBackReference(value = "unicol")
 	private University university;
@@ -211,6 +211,5 @@ public class College {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
 
 }

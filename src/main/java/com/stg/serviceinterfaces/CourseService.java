@@ -2,6 +2,8 @@ package com.stg.serviceinterfaces;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.stg.entity.College;
 import com.stg.entity.Course;
 import com.stg.entity.Course.coursType;
@@ -10,6 +12,8 @@ import com.stg.exception.CustomExcepHandler;
 public interface CourseService {
 	
 	public abstract Course createCourse(Course course )throws CustomExcepHandler;
+	
+	public abstract Course createCourseAllValues(MultipartFile imgFile ,String courseCode, String courseName, int courseFee, int courseDuration)throws CustomExcepHandler;
 	
 	public abstract Course addCourseInCollege(Course course, String collegeCode)throws CustomExcepHandler;
 	

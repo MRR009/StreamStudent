@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -37,23 +38,27 @@ public class Course {
 
 	@Column(length = 2)
 	private int courseDuration;
-	
+
 	@Column
 	private coursType courseType;
-	
+
 	public enum coursType {
 		DEGREE, DIPLOMA, CERTIFICATION
 	}
+
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String courseImage;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "coursesInUniversity")
 	private Set<University> universitiesWithCourse = new HashSet<University>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "streamsInCollege")
 	private Set<College> collegesWithCourse = new HashSet<College>();
-	
+
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.PERSIST,
-		     org.hibernate.annotations.CascadeType.MERGE })
-	@ManyToOne(fetch = FetchType.LAZY/*, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}*/)
+			org.hibernate.annotations.CascadeType.MERGE })
+	@ManyToOne(fetch = FetchType.LAZY/* , cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH} */)
 	@JoinColumn(name = "streamFk", referencedColumnName = "streamId", columnDefinition = "integer default 0")
 	private Stream stream;
 
@@ -61,11 +66,9 @@ public class Course {
 		super();
 	}
 
-	
-
 	public Course(int courseId, String courseCode, String courseName, int courseFee, int courseDuration,
-			coursType courseType, Set<University> universitiesWithCourse, Set<College> collegesWithCourse,
-			Stream stream) {
+			coursType courseType, String courseImage, Set<University> universitiesWithCourse,
+			Set<College> collegesWithCourse, Stream stream) {
 		super();
 		this.courseId = courseId;
 		this.courseCode = courseCode;
@@ -73,12 +76,11 @@ public class Course {
 		this.courseFee = courseFee;
 		this.courseDuration = courseDuration;
 		this.courseType = courseType;
+		this.courseImage = courseImage;
 		this.universitiesWithCourse = universitiesWithCourse;
 		this.collegesWithCourse = collegesWithCourse;
 		this.stream = stream;
 	}
-
-
 
 	public int getCourseId() {
 		return courseId;
@@ -119,7 +121,7 @@ public class Course {
 	public void setCourseDuration(int courseDuration) {
 		this.courseDuration = courseDuration;
 	}
-	
+
 	public coursType getCourseType() {
 		return courseType;
 	}
@@ -153,6 +155,14 @@ public class Course {
 
 	public void setCollegesWithCourse(Set<College> collegesWithCourse) {
 		this.collegesWithCourse = collegesWithCourse;
+	}
+
+	public String getCourseImage() {
+		return courseImage;
+	}
+
+	public void setCourseImage(String courseImage) {
+		this.courseImage = courseImage;
 	}
 
 }

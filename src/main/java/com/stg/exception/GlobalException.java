@@ -12,4 +12,9 @@ public class GlobalException {
 	public ResponseEntity<String> handleHere(CustomExcepHandler customExcepHandler){
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(customExcepHandler.getMessage());
 	}
+	
+	@ExceptionHandler(CustomIOException.class)
+	public ResponseEntity<String> handleHere(CustomIOException customIOException){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(customIOException.getMessage());
+	}
 }

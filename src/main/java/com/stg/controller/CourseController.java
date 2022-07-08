@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stg.entity.College;
 import com.stg.entity.Course;
@@ -34,6 +35,12 @@ public class CourseController {
 	@PostMapping(value = "addcourseincollege", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Course addCourseInCollege(@RequestBody Course course,@RequestParam String collegeCode) {
 		return courseService.addCourseInCollege(course, collegeCode);
+	}
+	
+	@PostMapping(value = "addCourse"/* , consumes = MediaType.APPLICATION_JSON_VALUE */)
+	public Course createCourseAllValues(@RequestParam MultipartFile imgFile,@RequestParam String courseCode,@RequestParam String courseName,@RequestParam int courseFee,
+			@RequestParam int courseDuration) {
+		return courseService.createCourseAllValues(imgFile, courseCode, courseName, courseFee, courseDuration);
 	}
 	
 	/*---------------------------------------READ---------------------------------------------------- */

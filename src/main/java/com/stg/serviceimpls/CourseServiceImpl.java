@@ -1,9 +1,13 @@
 package com.stg.serviceimpls;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stg.entity.College;
 import com.stg.entity.Course;
@@ -53,6 +57,31 @@ public class CourseServiceImpl implements CourseService {
 		}
 		return tempCourse;
 	}
+	
+
+	@Override
+	public Course createCourseAllValues(MultipartFile imgFile, String courseCode, String courseName, int courseFee,
+			int courseDuration) throws CustomExcepHandler {
+		Course course = new Course();
+		
+		String fileName = StringUtils.cleanPath(imgFile.getOriginalFilename());
+		if(fileName.contains("..")) {
+			throw new CustomExcepHandler("Not a valid File");
+		}
+		try {
+			course.setCourseImage(Base64.getEncoder().encodeToString(imgFile.getBytes()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		course.setCourseCode(courseCode);
+		course.setCourseName(courseName);
+		course.setCourseFee(courseFee);
+		course.setCourseDuration(courseDuration);
+		
+		return courseRepository.save(course);
+	}
+
 
 	/*---------------------------------------READ---------------------------------------------------- */
 
@@ -70,7 +99,7 @@ public class CourseServiceImpl implements CourseService {
 		if(courseRepository.findByCourseName(courseName) != null) {
 			return courseRepository.findByCourseName(courseName);
 		}else {
-			throw new CustomExcepHandler("No course found with the given code");
+			throw new CustomExcepHandler("No course found with the given name");
 		}
 		
 	}
