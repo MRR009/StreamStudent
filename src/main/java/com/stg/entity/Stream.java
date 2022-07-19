@@ -40,7 +40,6 @@ public class Stream {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "streamsInCollege")
 	private Set<College> collegesWithStream = new HashSet<College>();
 	
-	//@JsonManagedReference(value = "stream")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "stream")
 	private List<Course> coursesInStream ;
 

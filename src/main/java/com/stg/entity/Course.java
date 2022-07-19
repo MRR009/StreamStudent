@@ -58,7 +58,7 @@ public class Course {
 
 	@Cascade(value = { org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.PERSIST,
 			org.hibernate.annotations.CascadeType.MERGE })
-	@ManyToOne(fetch = FetchType.LAZY/* , cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH} */)
+	@ManyToOne( cascade = { CascadeType.MERGE, CascadeType.REFRESH} )
 	@JoinColumn(name = "streamFk", referencedColumnName = "streamId", columnDefinition = "integer default 0")
 	private Stream stream;
 
